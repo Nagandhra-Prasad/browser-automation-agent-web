@@ -1,0 +1,39 @@
+<div class="auth-page">
+  <div class="auth-page__overlay" aria-hidden="true"></div>
+
+  <header class="auth-brand">
+    <a routerLink="/login" class="auth-brand__link">
+      <svg class="auth-brand__mark" viewBox="0 0 280 48" aria-hidden="true">
+        <path
+          class="auth-brand__constellation"
+          d="M8 38 C 40 8, 72 8, 104 24 S 168 40, 200 20 S 248 12, 272 28"
+          fill="none"
+          stroke-width="2"
+        />
+        <circle class="auth-brand__node" cx="8" cy="38" r="3" />
+        <circle class="auth-brand__node" cx="104" cy="24" r="3" />
+        <circle class="auth-brand__node" cx="200" cy="20" r="3" />
+        <circle class="auth-brand__node" cx="272" cy="28" r="3" />
+        <rect class="auth-brand__window" x="118" y="10" width="22" height="16" rx="2" />
+        <path class="auth-brand__window-bar" d="M118 14 h22" />
+      </svg>
+      <span class="auth-brand__wordmark">
+        <span class="auth-brand__title">Browser Automation</span>
+        <span class="auth-brand__agent">Agent</span>
+      </span>
+    </a>
+    <p class="auth-brand__credit">A product by Nagandhra Prasad</p>
+  </header>
+
+  <main class="auth-main">
+    <ng-content />
+  </main>
+
+  <footer class="auth-footer">
+    <span>© {{ year }} Nagandhra Prasad. All rights reserved.</span>
+    <nav class="auth-footer__nav" aria-label="Legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms and Conditions</a>
+    </nav>
+  </footer>
+</div>

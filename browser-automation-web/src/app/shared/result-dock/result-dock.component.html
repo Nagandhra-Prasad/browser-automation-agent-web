@@ -1,0 +1,67 @@
+@if (dock.open()) {
+  @if (!embedded()) {
+    <div class="dock-backdrop" (click)="onBackdropClick()" aria-hidden="true"></div>
+  }
+
+  <aside class="dock-panel" role="dialog" [attr.aria-modal]="!embedded()" aria-labelledby="dock-title">
+    <header class="dock-header">
+      <div class="dock-header__text">
+        <h2 id="dock-title">{{ dock.view()?.title }}</h2>
+        @if (dock.view()?.subtitle) {
+          <p>{{ dock.view()?.subtitle }}</p>
+        }
+        @if (dock.view()?.sourceWebsite) {
+          <span class="dock-source">Source: {{ dock.view()?.sourceWebsite }}</span>
+        }
+      </div>
+      <button type="button" class="dock-close" (click)="close()" aria-label="Close panel">×</button>
+    </header>
+
+    <div class="dock-body">
+      @for (job of dock.view()?.jobs ?? []; track job.title + job.company + job.link) {
+        <article class="dock-job" [class.focused]="isFocused(job.title, job.company)">
+          <div class="dock-job__head">
+            <h3>{{ job.title }}</h3>
+            <span class="dock-job__company">{{ job.company }}</span>
+          </div>
+
+          <dl class="dock-job__meta">
+            <div>
+              <dt>Location</dt>
+              <dd>{{ job.location || '—' }}</dd>
+            </div>
+            <div>
+              <dt>Address</dt>
+              <dd>{{ job.address || job.location || '—' }}</dd>
+            </div>
+            <div>
+              <dt>Salary</dt>
+              <dd>{{ job.salary || '—' }}</dd>
+            </div>
+            <div>
+              <dt>Type</dt>
+              <dd>{{ job.job_type || '—' }}</dd>
+            </div>
+            <div>
+              <dt>Posted</dt>
+              <dd>{{ job.posted || '—' }}</dd>
+            </div>
+          </dl>
+
+          @if (job.description) {
+            <div class="dock-job__description">
+              <h4>Description</h4>
+              <p>{{ job.description }}</p>
+            </div>
+          }
+
+          @if (job.link) {
+            <a class="dock-job__link" [href]="job.link" target="_blank" rel="noopener noreferrer">
+              Open listing ↗
+            </a>
+          }
+        </article>
+      }
+    </div>
+  </aside>
+}

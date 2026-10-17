@@ -1,0 +1,101 @@
+<div class="page">
+  <header class="page-header">
+    <div>
+      <h1>Results</h1>
+      <p>
+        @if (isAdmin) {
+          All users' automation results stored in the database.
+        } @else {
+          Your saved job search results.
+        }
+      </p>
+    </div>
+    <a routerLink="/app/chat">New search</a>
+  </header>
+
+  @if (loading) {
+    <p class="state">Loading results…</p>
+  } @else if (error) {
+    <p class="error state">{{ error }}</p>
+  } @else if (!rows.length) {
+    <p class="empty state">No results yet. Run a job search from <a routerLink="/app/chat">Chat</a>.</p>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            @if (isAdmin) {
+              <th>User</th>
+            }
+            <th>Query</th>
+            <th>Jobs</th>
+            <th>Summary</th>
+            <th>When</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track row.id) {
+            <tr [class.selected]="selected?.id === row.id">
+              @if (isAdmin) {
+                <td>
+                  <strong>{{ row.user_name || '—' }}</strong>
+                  <small>{{ row.user_email }}</small>
+                </td>
+              }
+              <td>
+                <strong>{{ row.command || row.task_name }}</strong>
+                <small>{{ row.website }}</small>
+              </td>
+              <td>{{ row.job_count }}</td>
+              <td class="summary">{{ row.summary || '—' }}</td>
+              <td>{{ row.timestamp | appTimestamp }}</td>
+              <td>
+                <button type="button" class="link" (click)="selectRow(row)">
+                  {{ selected?.id === row.id ? 'Hide' : 'View jobs' }}
+                </button>
+              </td>
+            </tr>
+            @if (selected?.id === row.id) {
+              <tr class="detail-row">
+                <td [attr.colspan]="isAdmin ? 6 : 5">
+                  @if (jobsFor(row).length) {
+                    <table class="jobs">
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Company</th>
+                          <th>Location</th>
+                          <th>Address</th>
+                          <th>Salary</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (job of jobsFor(row); track job.title + job.company) {
+                          <tr>
+                            <td>{{ job.title }}</td>
+                            <td>{{ job.company }}</td>
+                            <td>{{ job.location }}</td>
+                            <td>{{ job.address || job.location }}</td>
+                            <td>{{ job.salary || '—' }}</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  } @else {
+                    <p class="muted">No job rows stored for this result.</p>
+                  }
+                  @if (row.conversation_id) {
+                    <a [routerLink]="['/app/conversations']" [queryParams]="{ id: row.conversation_id }">
+                      Open conversation
+                    </a>
+                  }
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,55 @@
+<div class="page">
+  <header>
+    <div>
+      <h1>Conversation history</h1>
+      <p>All saved chats (user and agent messages) from the database.</p>
+    </div>
+    <a
+      [routerLink]="selectedId ? ['/c', selectedId] : null"
+      [class.disabled]="!selectedId"
+      [attr.aria-disabled]="!selectedId"
+    >
+      Continue in chat
+    </a>
+  </header>
+
+  <div class="layout">
+    <aside>
+      @if (loadingList) {
+        <p>Loading…</p>
+      } @else if (!conversations.length) {
+        <p class="muted">No conversations yet.</p>
+      } @else {
+        @for (c of conversations; track c.id) {
+          <button
+            type="button"
+            class="conv-item"
+            [class.active]="selectedId === c.id"
+            (click)="openConversation(c.id)"
+          >
+            <strong>{{ c.title }}</strong>
+            <small>{{ c.updated_at | appTimestamp }}</small>
+          </button>
+        }
+      }
+    </aside>
+
+    <section class="thread">
+      @if (loadingMessages) {
+        <p>Loading messages…</p>
+      } @else if (!messages.length) {
+        <p class="muted">Select a conversation or start chatting.</p>
+      } @else {
+        <div class="thread-inner">
+          @for (m of messages; track m.id) {
+            <article class="bubble" [ngClass]="m.role">
+              <span class="role">{{ m.role === 'user' ? 'You' : 'Agent' }}</span>
+              <pre>{{ m.content }}</pre>
+              <time>{{ m.created_at | appTimestamp }}</time>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  </div>
+</div>

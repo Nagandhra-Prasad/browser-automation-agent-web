@@ -1,0 +1,18 @@
+<span
+  class="avatar"
+  [ngClass]="sizeClass ? [sizeClass] : []"
+  [style.width.px]="pixelSize"
+  [style.height.px]="pixelSize"
+  [class.avatar--viewable]="canView"
+  [attr.role]="canView ? 'button' : null"
+  [attr.tabindex]="canView ? 0 : null"
+  [attr.aria-label]="canView ? 'View profile photo' : null"
+  (click)="openViewer($event)"
+  (keydown)="onKeydown($event)"
+>
+  @if (imageUrl) {
+    <img [src]="imageUrl" alt="" draggable="false" />
+  } @else {
+    <span class="avatar__initials">{{ placeholderText }}</span>
+  }
+</span>

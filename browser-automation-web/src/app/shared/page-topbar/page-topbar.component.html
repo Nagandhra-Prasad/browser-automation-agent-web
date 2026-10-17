@@ -1,0 +1,27 @@
+<header class="topbar">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    @for (item of breadcrumbs.items(); track item.path ?? item.label; let last = $last) {
+      @if (!last && item.path) {
+        <a [routerLink]="item.path" class="crumb">
+          @if ($first) {
+            <svg class="crumb-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+          }
+          {{ item.label }}
+        </a>
+        <span class="sep" aria-hidden="true">&gt;</span>
+      } @else {
+        <span class="crumb current" aria-current="page">{{ item.label }}</span>
+      }
+    }
+  </nav>
+
+  <a routerLink="/app/profile" class="profile-link">
+    <app-user-avatar [avatarUser]="session.user" size="sm" />
+    <span class="profile-link__text">
+      <strong>{{ session.user?.name }}</strong>
+      <small>Profile settings</small>
+    </span>
+  </a>
+</header>

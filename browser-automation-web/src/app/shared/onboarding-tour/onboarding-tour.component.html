@@ -1,0 +1,13 @@
+<div class="backdrop">
+  <div class="card slide-in">
+    <p class="step-count">Step {{ index + 1 }} of {{ steps.length }}</p>
+    <h2>{{ step.title }}</h2>
+    <p>{{ step.body }}</p>
+    <div class="actions">
+      <button type="button" class="link" (click)="skip()">Skip tour</button>
+      <button type="button" class="primary" (click)="next()">
+        {{ isLast ? 'Finish' : 'Next' }}
+      </button>
+    </div>
+  </div>
+</div>

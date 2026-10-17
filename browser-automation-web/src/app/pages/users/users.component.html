@@ -1,0 +1,77 @@
+<div class="page">
+  <header class="page-header">
+    <div>
+      <h1>User management</h1>
+      <p>Admin view — activate or deactivate accounts to control login access.</p>
+    </div>
+    <a routerLink="/app/dashboard">← Dashboard</a>
+  </header>
+
+  @if (actionError) {
+    <p class="banner-error" role="alert">{{ actionError }}</p>
+  }
+
+  @if (loading) {
+    <p class="state">Loading users…</p>
+  } @else if (error) {
+    <p class="error state">{{ error }}</p>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Onboarding</th>
+            <th>Registered</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users; track u.id) {
+            <tr [class.inactive-row]="!u.is_active">
+              <td>{{ u.name }}</td>
+              <td>{{ u.email }}</td>
+              <td>
+                <span class="badge" [class.admin]="u.role === 'admin'">{{ u.role }}</span>
+              </td>
+              <td>
+                <span class="status" [class.active]="u.is_active" [class.inactive]="!u.is_active">
+                  {{ u.is_active ? 'Active' : 'Deactivated' }}
+                </span>
+              </td>
+              <td>{{ u.onboarding_completed ? 'Done' : 'Pending' }}</td>
+              <td>{{ u.created_at | appTimestamp }}</td>
+              <td class="actions">
+                @if (u.is_active) {
+                  <button
+                    type="button"
+                    class="btn btn-warn"
+                    [disabled]="isSelf(u) || updatingId === u.id"
+                    (click)="setActive(u, false)"
+                  >
+                    {{ updatingId === u.id ? 'Saving…' : 'Deactivate' }}
+                  </button>
+                } @else {
+                  <button
+                    type="button"
+                    class="btn btn-ok"
+                    [disabled]="updatingId === u.id"
+                    (click)="setActive(u, true)"
+                  >
+                    {{ updatingId === u.id ? 'Saving…' : 'Activate' }}
+                  </button>
+                }
+                @if (isSelf(u)) {
+                  <span class="hint">You</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

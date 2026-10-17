@@ -1,0 +1,106 @@
+<div class="chat-page">
+  <div class="chat-workspace" [class.dock-open]="dock.open()">
+    <section class="chat-column">
+      <header class="chat-toolbar">
+        <div class="chat-toolbar__title">
+          <h1>Job search chat</h1>
+          <p>Describe the role and location — the agent finds listings automatically.</p>
+        </div>
+        <div class="chat-toolbar__actions">
+          @if (latestJobs.length) {
+            <button type="button" class="btn-secondary" (click)="openAllJobsInDock(latestJobs)">
+              View all in dock ({{ latestJobs.length }})
+            </button>
+          }
+          <button type="button" class="btn-secondary" (click)="newChat()" [disabled]="loading">New chat</button>
+        </div>
+      </header>
+
+      @if (loadingHistory) {
+        <p class="loading-hint">Loading conversation history…</p>
+      }
+
+      <main class="chat-thread" aria-live="polite">
+        <div class="messages" #messagesViewport>
+          <div class="messages-inner">
+            @for (msg of messages; track $index) {
+              <article class="bubble" [ngClass]="msg.role">
+                @if (msg.role === 'user') {
+                  <app-user-avatar [avatarUser]="session.user" size="chat" />
+                } @else if (msg.role === 'agent') {
+                  <div class="bubble__avatar" aria-hidden="true"><span>AI</span></div>
+                } @else {
+                  <div class="bubble__avatar" aria-hidden="true"><span>…</span></div>
+                }
+                <div class="bubble__content">
+                  <div class="bubble__meta">
+                    <span>{{ msg.role === 'user' ? 'You' : msg.role === 'agent' ? 'Agent' : 'Working' }}</span>
+                    <time>{{ msg.createdAt | appTimestamp: 'time' }}</time>
+                  </div>
+                  <p class="bubble__body">{{ msg.content }}</p>
+                  @if (msg.meta?.source_website) {
+                    <p class="bubble__source">Source: {{ msg.meta?.source_website }}</p>
+                  }
+
+                  @if (jobsForMessage(msg).length) {
+                    <div class="result-cards">
+                      <div class="result-cards__head">
+                        <strong>{{ jobsForMessage(msg).length }} results</strong>
+                        <button
+                          type="button"
+                          class="link-btn"
+                          (click)="openAllJobsInDock(jobsForMessage(msg), msg.meta?.source_website)"
+                        >
+                          Open all in dock
+                        </button>
+                      </div>
+                      <div class="result-cards__grid">
+                        @for (job of jobsForMessage(msg); track job.title + job.company) {
+                          <article class="job-card">
+                            <h3>{{ job.title }}</h3>
+                            <p class="job-card__company">{{ job.company }}</p>
+                            <p class="job-card__loc">{{ job.location || 'Location not listed' }}</p>
+                            @if (job.salary) {
+                              <p class="job-card__salary">{{ job.salary }}</p>
+                            }
+                            <button
+                              type="button"
+                              class="job-card__action"
+                              (click)="openJobInDock(job, msg.meta?.source_website)"
+                            >
+                              View in dock
+                            </button>
+                          </article>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </main>
+
+      <footer class="composer">
+        <form [formGroup]="form" (ngSubmit)="send()">
+          <div class="composer__field">
+            <textarea
+              formControlName="message"
+              rows="2"
+              placeholder="Say hi, or ask: Find Java developer jobs in Chennai"
+              (keydown)="onComposerKeydown($event)"
+            ></textarea>
+            <button type="submit" class="composer__send" [disabled]="loading">
+              {{ loading ? 'Working…' : 'Send' }}
+            </button>
+          </div>
+        </form>
+      </footer>
+    </section>
+
+    @if (dock.open()) {
+      <app-result-dock [embedded]="true" />
+    }
+  </div>
+</div>

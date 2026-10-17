@@ -1,0 +1,122 @@
+<section class="profile-page">
+  <header>
+    <h1>Your profile</h1>
+    <p>Update your display name, photo, and job search details used by the agent.</p>
+  </header>
+
+  <div class="card">
+    <div class="photo-row">
+      <app-user-avatar [avatarUser]="avatarUser" [size]="72" />
+      <div class="photo-actions">
+        <label class="upload">
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="uploading" />
+          {{ uploading ? 'Uploading…' : 'Upload photo' }}
+        </label>
+        @if (user?.profile_image || previewImage) {
+          <button type="button" class="ghost" (click)="removePhoto()" [disabled]="uploading">Remove</button>
+        }
+        <p class="hint">Images are resized before upload — no 512&nbsp;KB limit on the original file.</p>
+      </div>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <h2 class="section-title">Account</h2>
+
+      <label>
+        Display name
+        <input type="text" formControlName="name" />
+      </label>
+
+      <div class="meta">
+        <div class="meta-row">
+          <span class="meta-label">Email</span>
+          <span class="meta-value">{{ user?.email }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Role</span>
+          <span class="meta-value role-pill">{{ user?.role }}</span>
+        </div>
+      </div>
+
+      <h2 class="section-title">Job search profile</h2>
+      <p class="section-lead">
+        @if (isUserRole) {
+          Required for tailored job searches in chat.
+        } @else {
+          Optional — add details if you use job search chat as an admin.
+        }
+      </p>
+
+      <div class="field-grid" formGroupName="job_profile">
+        <label class="span-2">
+          Target role
+          <input type="text" formControlName="target_role" placeholder="e.g. Java Developer" />
+        </label>
+
+        <label class="span-2">
+          Key skills
+          <textarea
+            formControlName="skills"
+            rows="3"
+            placeholder="e.g. Java, Spring Boot, REST APIs, SQL"
+          ></textarea>
+        </label>
+
+        <label>
+          Years of experience
+          <input type="number" formControlName="experience_years" min="0" max="60" />
+        </label>
+
+        <label>
+          Work mode
+          <select formControlName="work_mode">
+            @for (mode of workModes; track mode.value) {
+              <option [value]="mode.value">{{ mode.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="span-2">
+          Preferred locations
+          <input
+            type="text"
+            formControlName="preferred_locations"
+            placeholder="e.g. Chennai, Bangalore, Remote"
+          />
+        </label>
+
+        <label class="span-2">
+          Education
+          <input type="text" formControlName="education" placeholder="Optional" />
+        </label>
+
+        <label>
+          Salary expectation
+          <input type="text" formControlName="salary_expectation" placeholder="Optional" />
+        </label>
+
+        <label>
+          Resume / LinkedIn URL
+          <input type="url" formControlName="resume_url" placeholder="Optional" />
+        </label>
+
+        <label class="span-2">
+          Professional summary
+          <textarea
+            formControlName="professional_summary"
+            rows="3"
+            placeholder="Short summary for the agent (optional)"
+          ></textarea>
+        </label>
+      </div>
+
+      @if (error) {
+        <p class="error">{{ error }}</p>
+      }
+      @if (success) {
+        <p class="success">{{ success }}</p>
+      }
+      <button type="submit" [disabled]="saving">{{ saving ? 'Saving…' : 'Save changes' }}</button>
+    </form>
+  </div>
+</section>

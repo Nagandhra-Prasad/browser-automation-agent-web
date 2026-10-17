@@ -1,0 +1,167 @@
+:host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.page header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+
+  h1 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  p {
+    margin: 0.15rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  a {
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.45;
+      cursor: default;
+      text-decoration: none;
+    }
+  }
+}
+
+.layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+aside {
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  padding: 0.5rem;
+}
+
+.conv-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 0.6rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text);
+
+  &.active,
+  &:hover {
+    background: var(--accent-soft);
+  }
+
+  strong {
+    display: block;
+    font-size: 0.85rem;
+  }
+
+  small {
+    color: var(--text-subtle);
+  }
+}
+
+.thread {
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--chat-panel-bg);
+  padding: 1rem 1.25rem;
+}
+
+.thread-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  min-height: 100%;
+}
+
+.bubble {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  max-width: min(920px, 100%);
+
+  &.user {
+    align-self: flex-end;
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  &.agent {
+    align-self: flex-start;
+  }
+
+  pre {
+    margin: 0.25rem 0;
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  time {
+    font-size: 0.7rem;
+    color: var(--text-subtle);
+  }
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  aside {
+    max-height: 40%;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+}
