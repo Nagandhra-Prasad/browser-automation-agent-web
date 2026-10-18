@@ -2,71 +2,14 @@
 
 :host {
   display: block;
-  width: 100%;
-  max-height: 100%;
-  min-height: 0;
-}
-
-.signin-card--scrollable {
-  display: flex;
-  flex-direction: column;
-  max-height: min(calc(100dvh - 8rem), 40rem);
-  padding: 0;
-  overflow: hidden;
-}
-
-@media (min-width: 769px) {
-  .signin-card--scrollable {
-    max-height: min(calc(100dvh - 7rem), 36rem);
-  }
-}
-
-.signin-card__body {
-  position: relative;
-  z-index: 1;
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding: 1.5rem 2rem 1.75rem;
-  text-align: center;
-}
-
-.signin-card__body .signin-form {
-  text-align: left;
-}
-
-@media (max-width: 480px) {
-  .signin-card--scrollable {
-    max-height: min(calc(100dvh - 10rem), 90dvh);
-  }
-
-  .signin-card__body {
-    padding: 1.25rem 1.25rem 1.5rem;
-  }
-
-  .btn-row {
-    flex-direction: column;
-
-    .btn-secondary-pill,
-    .btn-get-started {
-      width: 100%;
-      flex: 1 1 auto;
-    }
-  }
 }
 
 .wizard-progress {
-  position: sticky;
-  top: 0;
-  z-index: 2;
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 0.35rem;
-  margin: -0.25rem 0 1.25rem;
-  padding: 0.35rem 0 0.5rem;
-  background: #fff;
+  margin-bottom: 1.25rem;
 
   span {
     flex: 1;
