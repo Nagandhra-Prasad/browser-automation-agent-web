@@ -22,7 +22,16 @@
 
       <main class="chat-thread" aria-live="polite">
         <div class="messages" #messagesViewport>
-          <div class="messages-inner">
+          <div class="messages-inner" [class.messages-inner--empty]="!loadingHistory && !messages.length">
+            @if (!loadingHistory && !messages.length) {
+              <app-empty-state-card
+                icon="chat"
+                title="Start your job search"
+                description="Describe the role, skills, and location. The agent will search and return listings here."
+                [fill]="true"
+              />
+            }
+
             @for (msg of messages; track $index) {
               <article class="bubble" [ngClass]="msg.role">
                 @if (msg.role === 'user') {
@@ -75,6 +84,25 @@
                       </div>
                     </div>
                   }
+                </div>
+              </article>
+            }
+
+            @if (loading && agentStatusText) {
+              <article class="bubble agent agent-typing" aria-busy="true" aria-live="polite">
+                <div class="bubble__avatar" aria-hidden="true"><span>AI</span></div>
+                <div class="bubble__content">
+                  <div class="bubble__meta">
+                    <span>Agent</span>
+                  </div>
+                  <div class="typing-indicator">
+                    <span class="typing-indicator__dots" aria-hidden="true">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </span>
+                    <p class="typing-indicator__label">{{ agentStatusText }}</p>
+                  </div>
                 </div>
               </article>
             }

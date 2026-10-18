@@ -1,68 +1,92 @@
 <div class="shell">
-  <aside class="sidebar">
-    <div class="brand">
-      <span class="logo">BA</span>
-      <div>
-        <strong>Browser Agent</strong>
-        <small>{{ user?.role === 'admin' ? 'Admin' : 'User' }} portal</small>
-      </div>
-    </div>
-
-    <nav>
-      <a routerLink="/app/dashboard" routerLinkActive="active" data-tour="tour-dashboard">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-        Dashboard
-      </a>
-      <a
-        routerLink="/app/chat"
-        [class.active]="chatNavActive()"
-        data-tour="tour-chat"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-        Job search chat
-      </a>
-      <a routerLink="/app/results" routerLinkActive="active" data-tour="tour-results">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        Results
-      </a>
-      <a routerLink="/app/conversations" routerLinkActive="active" data-tour="tour-conversations">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7.03 3 3 6.58 3 11c0 1.61.52 3.1 1.41 4.34L3 21l5.84-1.2A10.9 10.9 0 0 0 12 19c4.97 0 9-3.58 9-8s-4.03-8-9-8z"/></svg>
-        Conversations
-      </a>
-      @if (user?.role === 'admin') {
-        <a routerLink="/app/users" routerLinkActive="active" data-tour="tour-users">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          User management
-        </a>
-      }
-      <a routerLink="/app/profile" routerLinkActive="active">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-        Profile settings
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <a routerLink="/app/profile" class="sidebar-profile">
-        <app-user-avatar [avatarUser]="user" size="sm" />
-        <span>{{ user?.name }}</span>
-      </a>
-      <button type="button" class="theme-toggle" (click)="theme.toggle()">
-        @if (theme.mode() === 'dark') {
-          <span aria-hidden="true">☀️</span> Light mode
-        } @else {
-          <span aria-hidden="true">🌙</span> Dark mode
-        }
-      </button>
-      <button type="button" class="ghost" (click)="logout()">Logout</button>
-    </div>
-  </aside>
-
   <main class="content">
     <app-page-topbar />
     <div class="outlet-shell">
       <router-outlet />
     </div>
   </main>
+
+  <nav class="dock" aria-label="Main navigation">
+    <div class="dock__panel">
+      <a routerLink="/app/dashboard" class="dock-brand" title="Browser Automation Agent">
+        <span class="dock-brand__logo">BA</span>
+      </a>
+
+      <div class="dock__items">
+        <a
+          routerLink="/app/dashboard"
+          routerLinkActive="active"
+          class="dock-item"
+          data-tour="tour-dashboard"
+        >
+          <span class="dock-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          </span>
+          <span class="dock-item__label">Home</span>
+        </a>
+
+        <a
+          routerLink="/app/chat"
+          [class.active]="chatNavActive()"
+          class="dock-item dock-item--chat"
+          data-tour="tour-chat"
+        >
+          <span class="dock-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          </span>
+          <span class="dock-item__label">Chat</span>
+        </a>
+
+        <a routerLink="/app/results" routerLinkActive="active" class="dock-item" data-tour="tour-results">
+          <span class="dock-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          </span>
+          <span class="dock-item__label">Results</span>
+        </a>
+
+        <a
+          routerLink="/app/conversations"
+          routerLinkActive="active"
+          class="dock-item"
+          data-tour="tour-conversations"
+        >
+          <span class="dock-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3C7.03 3 3 6.58 3 11c0 1.61.52 3.1 1.41 4.34L3 21l5.84-1.2A10.9 10.9 0 0 0 12 19c4.97 0 9-3.58 9-8s-4.03-8-9-8z"/></svg>
+          </span>
+          <span class="dock-item__label">History</span>
+        </a>
+
+        @if (user?.role === 'admin') {
+          <a routerLink="/app/users" routerLinkActive="active" class="dock-item" data-tour="tour-users">
+            <span class="dock-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </span>
+            <span class="dock-item__label">Users</span>
+          </a>
+        }
+
+        <a routerLink="/app/profile" routerLinkActive="active" class="dock-item">
+          <span class="dock-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </span>
+          <span class="dock-item__label">Profile</span>
+        </a>
+      </div>
+
+      <div class="dock__actions">
+        <button type="button" class="dock-action" (click)="theme.toggle()" [attr.aria-label]="theme.mode() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+          @if (theme.mode() === 'dark') {
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5c0-.65-.13-1.26-.36-1.83l1.73-1.73c1.54 1.79 2.48 4.12 2.48 6.66 0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2c2.54 0 4.87.94 6.66 2.48L17 6.05A5.9 5.9 0 0 0 12 7z"/></svg>
+          } @else {
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+          }
+        </button>
+        <button type="button" class="dock-action dock-action--logout" (click)="logout()" aria-label="Log out">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
 </div>
 
 @if (showTour) {

@@ -3,13 +3,14 @@ import { RouterLink } from '@angular/router';
 
 import { SessionService } from '../../core/session.service';
 import { User } from '../../models/api.models';
+import { EmptyStateCardComponent } from '../../shared/empty-state-card/empty-state-card.component';
 import { AppTimestampPipe } from '../../shared/pipes/app-timestamp.pipe';
 import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [RouterLink, AppTimestampPipe],
+  imports: [RouterLink, AppTimestampPipe, EmptyStateCardComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })

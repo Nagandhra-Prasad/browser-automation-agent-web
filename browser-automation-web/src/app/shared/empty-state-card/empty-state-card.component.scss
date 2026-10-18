@@ -1,0 +1,140 @@
+:host {
+  display: block;
+}
+
+:host(.empty-state-host--fill) {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 1.75rem 1.5rem;
+  border-radius: 18px;
+  border: 1px dashed var(--border-strong);
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--accent-soft) 0%, transparent 55%),
+    var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+
+  &--compact {
+    padding: 1.1rem 0.85rem;
+    border-radius: 14px;
+
+    .empty-card__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 12px;
+      margin-bottom: 0.65rem;
+
+      svg {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+
+    .empty-card__title {
+      font-size: 0.9rem;
+    }
+
+    .empty-card__desc {
+      font-size: 0.78rem;
+      margin-top: 0.35rem;
+    }
+  }
+
+  &--fill {
+    width: min(420px, 100%);
+    margin: 0 auto;
+  }
+}
+
+.empty-card__icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: 0 auto 0.85rem;
+  border-radius: 16px;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--border));
+
+  svg {
+    width: 1.55rem;
+    height: 1.55rem;
+  }
+}
+
+.empty-card__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.empty-card__desc {
+  margin: 0.5rem auto 0;
+  max-width: 28rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.empty-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  &:empty {
+    display: none;
+  }
+
+  :where(a, button) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  a {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    box-shadow: 0 4px 14px var(--accent-glow);
+
+    &:hover {
+      text-decoration: none;
+      filter: brightness(1.05);
+    }
+  }
+
+  button {
+    border-color: var(--border-strong);
+    background: var(--bg-surface-muted);
+    color: var(--text);
+
+    &:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      background: var(--accent-soft);
+    }
+  }
+}

@@ -1,6 +1,6 @@
 .signin-card {
   position: relative;
-  width: min(400px, 100%);
+  width: 100%;
   padding: 2.5rem 2rem 2rem;
   border-radius: 32px;
   background: #fff;
@@ -13,7 +13,7 @@
 }
 
 .signin-card--wide {
-  width: min(440px, 100%);
+  width: 100%;
 }
 
 .signin-card__grid {

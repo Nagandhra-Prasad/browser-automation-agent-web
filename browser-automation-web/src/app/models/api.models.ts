@@ -54,10 +54,20 @@ export interface DashboardSummary {
   total_tasks?: number;
 }
 
+export type OnboardingStepIcon =
+  | 'dashboard'
+  | 'chat'
+  | 'results'
+  | 'history'
+  | 'users'
+  | 'finish';
+
 export interface OnboardingStep {
   title: string;
   body: string;
   target: string;
+  icon?: OnboardingStepIcon;
+  tips?: string[];
 }
 
 export interface JobListing {
@@ -114,6 +124,18 @@ export interface ChatResponse {
   plan: Record<string, unknown> | null;
   jobs: JobListing[];
   source_website: string | null;
+}
+
+export interface ChatJobStatusResponse {
+  task_id: string;
+  status: string;
+  reply: string | null;
+  summary: string | null;
+  data: Record<string, unknown> | null;
+  jobs: JobListing[];
+  source_website: string | null;
+  session_id: string | null;
+  result_id: string | null;
 }
 
 export interface ChatMessage {

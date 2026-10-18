@@ -17,11 +17,18 @@
     }
   </nav>
 
-  <a routerLink="/app/profile" class="profile-link">
-    <app-user-avatar [avatarUser]="session.user" size="sm" />
-    <span class="profile-link__text">
-      <strong>{{ session.user?.name }}</strong>
-      <small>Profile settings</small>
-    </span>
-  </a>
+  <div class="topbar__end">
+    <div class="topbar-clock" aria-live="polite">
+      <time class="topbar-clock__time">{{ clockTime }}</time>
+      <span class="topbar-clock__date">{{ clockDate }}</span>
+    </div>
+
+    <a routerLink="/app/profile" class="profile-link">
+      <app-user-avatar [avatarUser]="session.user" size="sm" />
+      <span class="profile-link__text">
+        <strong>{{ session.user?.name }}</strong>
+        <small>Profile settings</small>
+      </span>
+    </a>
+  </div>
 </header>

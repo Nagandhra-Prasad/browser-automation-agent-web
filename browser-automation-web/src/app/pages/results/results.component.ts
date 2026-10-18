@@ -4,12 +4,13 @@ import { RouterLink } from '@angular/router';
 import { SessionService } from '../../core/session.service';
 import { JobListing, ResultTableRow } from '../../models/api.models';
 import { ResultsService } from '../../services/results.service';
+import { EmptyStateCardComponent } from '../../shared/empty-state-card/empty-state-card.component';
 import { AppTimestampPipe } from '../../shared/pipes/app-timestamp.pipe';
 
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [AppTimestampPipe, RouterLink],
+  imports: [AppTimestampPipe, RouterLink, EmptyStateCardComponent],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss',
 })

@@ -102,6 +102,13 @@ aside {
   overflow-y: auto;
   background: var(--chat-panel-bg);
   padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+
+  > app-empty-state-card {
+    flex: 1;
+    min-height: 12rem;
+  }
 }
 
 .thread-inner {

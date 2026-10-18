@@ -15,6 +15,13 @@
     <p class="state">Loading users…</p>
   } @else if (error) {
     <p class="error state">{{ error }}</p>
+  } @else if (!users.length) {
+    <app-empty-state-card
+      icon="users"
+      title="No users yet"
+      description="Registered accounts will appear here for activation and onboarding status."
+      [fill]="true"
+    />
   } @else {
     <div class="table-wrap">
       <table>

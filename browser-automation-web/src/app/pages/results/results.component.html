@@ -18,7 +18,14 @@
   } @else if (error) {
     <p class="error state">{{ error }}</p>
   } @else if (!rows.length) {
-    <p class="empty state">No results yet. Run a job search from <a routerLink="/app/chat">Chat</a>.</p>
+    <app-empty-state-card
+      icon="results"
+      title="No results yet"
+      description="Run a job search in chat and saved listings will show up here."
+      [fill]="true"
+    >
+      <a emptyActions routerLink="/app/chat">Start job search</a>
+    </app-empty-state-card>
   } @else {
     <div class="table-wrap">
       <table>
@@ -83,7 +90,12 @@
                       </tbody>
                     </table>
                   } @else {
-                    <p class="muted">No job rows stored for this result.</p>
+                    <app-empty-state-card
+                      icon="jobs"
+                      title="No job rows"
+                      description="This run did not store individual listings."
+                      [compact]="true"
+                    />
                   }
                   @if (row.conversation_id) {
                     <a [routerLink]="['/app/conversations']" [queryParams]="{ id: row.conversation_id }">

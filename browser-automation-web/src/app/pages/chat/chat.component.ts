@@ -18,13 +18,21 @@ import { AgentService } from '../../services/agent.service';
 import { AuthService } from '../../services/auth.service';
 import { AppTimestampPipe } from '../../shared/pipes/app-timestamp.pipe';
 import { parseAppTimestamp } from '../../shared/pipes/parse-app-timestamp';
+import { EmptyStateCardComponent } from '../../shared/empty-state-card/empty-state-card.component';
 import { ResultDockComponent } from '../../shared/result-dock/result-dock.component';
 import { UserAvatarComponent } from '../../shared/user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass, AppTimestampPipe, ResultDockComponent, UserAvatarComponent],
+  imports: [
+    ReactiveFormsModule,
+    NgClass,
+    AppTimestampPipe,
+    EmptyStateCardComponent,
+    ResultDockComponent,
+    UserAvatarComponent,
+  ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
@@ -125,11 +133,17 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       .sendMessage({
         message,
         conversation_id: this.conversationId ?? undefined,
-        headless: true,
       })
       .subscribe({
         next: (res) => {
           this.conversationId = res.conversation_id;
+          if (res.status === 'queued' && res.task_id) {
+            this.agentStatusText =
+              'Searching job sites and extracting listings (30–90 seconds)…';
+            this.queueScrollToBottom(true);
+            this.pollJobStatus(res.task_id, res.conversation_id);
+            return;
+          }
           this.loading = false;
           this.agentStatusText = null;
           this.revealAgentMessage(res.reply, res);
@@ -185,8 +199,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  private loadConversation(conversationId: string): void {
+  private loadConversation(conversationId: string, force = false): void {
     if (
+      !force &&
       this.conversationId === conversationId &&
       this.messages.length > 0 &&
       !this.loading
@@ -199,7 +214,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.agent.getConversation(conversationId).subscribe({
       next: (detail) => {
         this.conversationId = detail.conversation.id;
-        const restored = detail.messages.map((m) => this.fromStoredMessage(m));
+        const restored = detail.messages
+          .map((m) => this.fromStoredMessage(m))
+          .filter((m): m is ChatMessage => m !== null);
         this.messages = restored.length ? restored : [this.welcomeMessage()];
         const latest = this.extractLatestJobs(detail.messages);
         this.latestJobs = latest.jobs;
@@ -214,8 +231,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  private fromStoredMessage(m: StoredMessage): ChatMessage {
+  private fromStoredMessage(m: StoredMessage): ChatMessage | null {
     const meta = m.metadata ? (m.metadata as unknown as ChatResponse) : undefined;
+    if (m.role === 'agent' && meta?.status === 'queued') {
+      return null;
+    }
     return {
       role: m.role,
       content: m.content,
@@ -276,5 +296,42 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   private looksLikeJobSearch(message: string): boolean {
     return /\b(job|jobs|developer|engineer|hiring|career|vacancy|opening)\b/i.test(message);
+  }
+
+  private jobStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      queued: 'Queued — starting browser automation…',
+      planning: 'Planning search steps…',
+      running: 'Searching job sites and extracting listings…',
+      pending: 'Preparing job search…',
+    };
+    return labels[status] ?? `Job search in progress (${status})…`;
+  }
+
+  private pollJobStatus(taskId: string, conversationId: string): void {
+    const terminal = new Set(['completed', 'failed']);
+    const poll = (): void => {
+      this.agent.getJobStatus(taskId).subscribe({
+        next: (status) => {
+          if (!terminal.has(status.status)) {
+            this.agentStatusText = this.jobStatusLabel(status.status);
+            this.queueScrollToBottom(true);
+            window.setTimeout(poll, 2500);
+            return;
+          }
+          this.loading = false;
+          this.agentStatusText = null;
+          this.loadConversation(conversationId, true);
+        },
+        error: () => {
+          this.loading = false;
+          this.agentStatusText = null;
+          this.revealAgentMessage(
+            'Could not fetch job status. Check Conversations or try again.',
+          );
+        },
+      });
+    };
+    poll();
   }
 }

@@ -1,13 +1,123 @@
-<div class="backdrop">
-  <div class="card slide-in">
-    <p class="step-count">Step {{ index + 1 }} of {{ steps.length }}</p>
-    <h2>{{ step.title }}</h2>
-    <p>{{ step.body }}</p>
-    <div class="actions">
-      <button type="button" class="link" (click)="skip()">Skip tour</button>
-      <button type="button" class="primary" (click)="next()">
-        {{ isLast ? 'Finish' : 'Next' }}
-      </button>
+<div class="backdrop" role="dialog" aria-modal="true" [attr.aria-labelledby]="'tour-title-' + index">
+  <article class="tour-card slide-in">
+    <header class="tour-card__hero">
+      <div class="tour-card__hero-bg" aria-hidden="true"></div>
+      <div class="tour-card__icon-wrap" aria-hidden="true">
+        @switch (stepIcon) {
+          @case ('dashboard') {
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
+              />
+            </svg>
+          }
+          @case ('chat') {
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          }
+          @case ('results') {
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"
+              />
+            </svg>
+          }
+          @case ('history') {
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12 3C7.03 3 3 6.58 3 11c0 1.61.52 3.1 1.41 4.34L3 21l5.84-1.2A10.9 10.9 0 0 0 12 19c4.97 0 9-3.58 9-8s-4.03-8-9-8z"
+              />
+            </svg>
+          }
+          @case ('users') {
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+              />
+            </svg>
+          }
+          @default {
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6L12 2z"
+              />
+            </svg>
+          }
+        }
+      </div>
+      <p class="tour-card__badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"
+          />
+        </svg>
+        Guided tour
+      </p>
+    </header>
+
+    <div class="tour-card__body">
+      <div class="tour-card__progress" aria-hidden="true">
+        <div class="tour-card__progress-track">
+          <div class="tour-card__progress-fill" [style.width.%]="progressPercent"></div>
+        </div>
+        <span class="tour-card__step-label">Step {{ index + 1 }} of {{ steps.length }}</span>
+      </div>
+
+      <div class="tour-card__dots" role="tablist" aria-label="Tour progress">
+        @for (s of steps; track s.target; let i = $index) {
+          <span
+            class="tour-card__dot"
+            [class.tour-card__dot--done]="i < index"
+            [class.tour-card__dot--active]="i === index"
+            [attr.aria-current]="i === index ? 'step' : null"
+          ></span>
+        }
+      </div>
+
+      <h2 class="tour-card__title" [id]="'tour-title-' + index">{{ step.title }}</h2>
+      <p class="tour-card__lead">{{ step.body }}</p>
+
+      @if (step.tips?.length) {
+        <ul class="tour-card__tips">
+          @for (tip of step.tips; track tip) {
+            <li>
+              <span class="tour-card__tip-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+              </span>
+              <span>{{ tip }}</span>
+            </li>
+          }
+        </ul>
+      }
     </div>
-  </div>
+
+    <footer class="tour-card__footer">
+      <button type="button" class="tour-card__skip" (click)="skip()">Skip tour</button>
+      <button type="button" class="tour-card__next" (click)="next()">
+        @if (isLast) {
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+          </svg>
+          Finish
+        } @else {
+          Next
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+          </svg>
+        }
+      </button>
+    </footer>
+  </article>
 </div>

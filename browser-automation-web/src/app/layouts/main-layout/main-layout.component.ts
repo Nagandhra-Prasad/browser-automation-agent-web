@@ -7,10 +7,8 @@ import { SessionService } from '../../core/session.service';
 import { ThemeService } from '../../core/theme.service';
 import { OnboardingTourComponent } from '../../shared/onboarding-tour/onboarding-tour.component';
 import { PageTopbarComponent } from '../../shared/page-topbar/page-topbar.component';
-import { UserAvatarComponent } from '../../shared/user-avatar/user-avatar.component';
 import { AuthService } from '../../services/auth.service';
 import { OnboardingService } from '../../services/onboarding.service';
-import { NEW_CHAT_PATH } from '../../core/conversation-routes';
 import { OnboardingStep } from '../../models/api.models';
 
 @Component({
@@ -22,7 +20,6 @@ import { OnboardingStep } from '../../models/api.models';
     RouterLinkActive,
     OnboardingTourComponent,
     PageTopbarComponent,
-    UserAvatarComponent,
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
@@ -66,7 +63,7 @@ export class MainLayoutComponent implements OnInit {
 
   private updateChatNavActive(url: string): void {
     const path = url.split('?')[0];
-    this.chatNavActive.set(path.startsWith('/c/'));
+    this.chatNavActive.set(path.startsWith('/c/') || path === '/app/chat');
   }
 
   onTourFinished(): void {

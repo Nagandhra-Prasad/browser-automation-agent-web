@@ -4,77 +4,100 @@
   box-sizing: border-box;
 }
 
+/* Light — white surfaces + soft sky-blue chrome */
 :root,
 [data-theme='light'] {
   color-scheme: light;
-  --bg-page: #f1f5f9;
+  --bg-page: #e8f2fc;
+  --bg-page-gradient: linear-gradient(165deg, #edf5ff 0%, #e3effa 45%, #dce8f7 100%);
   --bg-surface: #ffffff;
-  --bg-surface-muted: #f8fafc;
+  --bg-surface-muted: #f4f8ff;
   --bg-elevated: #ffffff;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --text-subtle: #94a3b8;
+  --border: #cfe0f5;
+  --border-strong: #b8d4f0;
+  --text: #0f2744;
+  --text-muted: #5a7291;
+  --text-subtle: #7b92ad;
   --accent: #3b82f6;
   --accent-strong: #2563eb;
-  --accent-soft: rgba(59, 130, 246, 0.12);
-  --accent-glow: rgba(37, 99, 235, 0.25);
-  --sidebar-bg: #0f172a;
-  --sidebar-border: #1e293b;
-  --sidebar-text: #e2e8f0;
-  --sidebar-muted: #94a3b8;
-  --sidebar-hover: #1e293b;
-  --chat-user-bg: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --accent-soft: rgba(59, 130, 246, 0.14);
+  --accent-glow: rgba(37, 99, 235, 0.22);
+  --sidebar-bg: #f8fbff;
+  --sidebar-border: #d6e6f8;
+  --sidebar-text: #1e3a5f;
+  --sidebar-muted: #5c7594;
+  --sidebar-hover: #e8f2fd;
+  --sidebar-active-bg: #dbeafe;
+  --sidebar-active-text: #1d4ed8;
+  --topbar-bg: rgba(255, 255, 255, 0.92);
+  --chat-user-bg: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
   --chat-user-text: #ffffff;
-  --chat-agent-bg: var(--bg-surface);
-  --chat-panel-bg: var(--bg-surface-muted);
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --chat-agent-bg: #ffffff;
+  --chat-panel-bg: #f0f6ff;
+  --shadow-sm: 0 1px 3px rgba(30, 64, 120, 0.08);
+  --shadow-md: 0 10px 28px rgba(30, 64, 120, 0.1);
   --dock-bg: #ffffff;
-  --dock-border: #e2e8f0;
-  --dock-header-bg: #f8fafc;
+  --dock-border: #cfe0f5;
+  --dock-header-bg: #f4f8ff;
+  --btn-primary-bg: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  --btn-primary-text: #ffffff;
   --danger: #dc2626;
   --success: #16a34a;
+  --shell-padding: clamp(0.75rem, 2vw, 1.25rem);
 }
 
+/* Dark — deep navy with blue accents */
 [data-theme='dark'] {
   color-scheme: dark;
-  --bg-page: #0b1120;
-  --bg-surface: #111827;
-  --bg-surface-muted: #0f172a;
-  --bg-elevated: #1e293b;
-  --border: #1f2937;
-  --border-strong: #334155;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --bg-page: #0a1220;
+  --bg-page-gradient: linear-gradient(165deg, #0c1628 0%, #0a1220 50%, #0d1526 100%);
+  --bg-surface: #111c2e;
+  --bg-surface-muted: #0f1a2c;
+  --bg-elevated: #162236;
+  --border: #243652;
+  --border-strong: #2f4563;
+  --text: #e8f0fa;
+  --text-muted: #94a8c4;
+  --text-subtle: #6b85a8;
   --accent: #60a5fa;
   --accent-strong: #3b82f6;
-  --accent-soft: rgba(96, 165, 250, 0.15);
+  --accent-soft: rgba(96, 165, 250, 0.16);
   --accent-glow: rgba(59, 130, 246, 0.35);
-  --sidebar-bg: #020617;
-  --sidebar-border: #1e293b;
-  --sidebar-text: #e2e8f0;
-  --sidebar-muted: #64748b;
-  --sidebar-hover: #0f172a;
+  --sidebar-bg: #0c1524;
+  --sidebar-border: #1e3050;
+  --sidebar-text: #dbe8f8;
+  --sidebar-muted: #7d96b8;
+  --sidebar-hover: #152238;
+  --sidebar-active-bg: rgba(59, 130, 246, 0.22);
+  --sidebar-active-text: #93c5fd;
+  --topbar-bg: rgba(17, 28, 46, 0.94);
   --chat-user-bg: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
   --chat-user-text: #ffffff;
-  --chat-agent-bg: #1e293b;
-  --chat-panel-bg: #0f172a;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --chat-agent-bg: #162236;
+  --chat-panel-bg: #0f1a2c;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
-  --dock-bg: #111827;
-  --dock-border: #1f2937;
-  --dock-header-bg: #0f172a;
+  --dock-bg: #111c2e;
+  --dock-border: #243652;
+  --dock-header-bg: #0f1a2c;
+  --btn-primary-bg: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --btn-primary-text: #ffffff;
   --danger: #f87171;
   --success: #4ade80;
+  --shell-padding: clamp(0.75rem, 2vw, 1.25rem);
 }
 
 html,
 body {
+  width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+app-root {
+  display: block;
+  width: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -86,11 +109,12 @@ body {
     Segoe UI,
     Roboto,
     sans-serif;
-  background: var(--bg-page);
+  background: var(--bg-page-gradient);
+  background-color: var(--bg-page);
   color: var(--text);
   transition:
-    background 0.2s ease,
-    color 0.2s ease;
+    background 0.25s ease,
+    color 0.25s ease;
 }
 
 a {
@@ -103,11 +127,12 @@ a:hover {
 }
 
 .tour-highlight {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 8px;
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 4px;
+  border-radius: 14px;
   position: relative;
-  z-index: 1001;
+  z-index: 45;
+  box-shadow: 0 0 0 6px var(--accent-soft);
 }
 
 @import 'viewerjs/dist/viewer.css';

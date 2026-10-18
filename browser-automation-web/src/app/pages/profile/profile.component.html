@@ -19,22 +19,24 @@
       </div>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="save()">
+    <form class="profile-form" [formGroup]="form" (ngSubmit)="save()">
       <h2 class="section-title">Account</h2>
 
-      <label>
-        Display name
-        <input type="text" formControlName="name" />
-      </label>
+      <div class="form-grid">
+        <label class="form-field form-field--full">
+          <span class="form-field__label">Display name</span>
+          <input class="form-control" type="text" formControlName="name" />
+        </label>
 
-      <div class="meta">
-        <div class="meta-row">
-          <span class="meta-label">Email</span>
-          <span class="meta-value">{{ user?.email }}</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Role</span>
-          <span class="meta-value role-pill">{{ user?.role }}</span>
+        <div class="form-field form-field--full meta">
+          <div class="meta-row">
+            <span class="meta-label">Email</span>
+            <span class="meta-value">{{ user?.email }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Role</span>
+            <span class="meta-value role-pill">{{ user?.role }}</span>
+          </div>
         </div>
       </div>
 
@@ -47,64 +49,83 @@
         }
       </p>
 
-      <div class="field-grid" formGroupName="job_profile">
-        <label class="span-2">
-          Target role
-          <input type="text" formControlName="target_role" placeholder="e.g. Java Developer" />
+      <div class="form-grid" formGroupName="job_profile">
+        <label class="form-field form-field--full">
+          <span class="form-field__label">Target role</span>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="target_role"
+            placeholder="e.g. Java Developer"
+          />
         </label>
 
-        <label class="span-2">
-          Key skills
+        <label class="form-field form-field--full">
+          <span class="form-field__label">Key skills</span>
           <textarea
+            class="form-control"
             formControlName="skills"
-            rows="3"
+            rows="1"
             placeholder="e.g. Java, Spring Boot, REST APIs, SQL"
           ></textarea>
         </label>
 
-        <label>
-          Years of experience
-          <input type="number" formControlName="experience_years" min="0" max="60" />
+        <label class="form-field">
+          <span class="form-field__label">Years of experience</span>
+          <input
+            class="form-control"
+            type="number"
+            formControlName="experience_years"
+            min="0"
+            max="60"
+          />
         </label>
 
-        <label>
-          Work mode
-          <select formControlName="work_mode">
+        <label class="form-field">
+          <span class="form-field__label">Work mode</span>
+          <select class="form-control" formControlName="work_mode">
             @for (mode of workModes; track mode.value) {
               <option [value]="mode.value">{{ mode.label }}</option>
             }
           </select>
         </label>
 
-        <label class="span-2">
-          Preferred locations
+        <label class="form-field form-field--full">
+          <span class="form-field__label">Preferred locations</span>
           <input
+            class="form-control"
             type="text"
             formControlName="preferred_locations"
             placeholder="e.g. Chennai, Bangalore, Remote"
           />
         </label>
 
-        <label class="span-2">
-          Education
-          <input type="text" formControlName="education" placeholder="Optional" />
+        <label class="form-field">
+          <span class="form-field__label">Education</span>
+          <input class="form-control" type="text" formControlName="education" placeholder="Optional" />
         </label>
 
-        <label>
-          Salary expectation
-          <input type="text" formControlName="salary_expectation" placeholder="Optional" />
+        <label class="form-field">
+          <span class="form-field__label">Salary expectation</span>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="salary_expectation"
+            placeholder="Optional"
+          />
         </label>
 
-        <label>
-          Resume / LinkedIn URL
-          <input type="url" formControlName="resume_url" placeholder="Optional" />
+        <label class="form-field form-field--full">
+          <span class="form-field__label">Resume / LinkedIn URL</span>
+          <input class="form-control" type="url" formControlName="resume_url" placeholder="Optional" />
         </label>
 
-        <label class="span-2">
-          Professional summary
+        <label class="form-field form-field--full">
+          <span class="form-field__label">Professional summary</span>
           <textarea
+            class="form-control"
             formControlName="professional_summary"
-            rows="3"
+            rows="1"
             placeholder="Short summary for the agent (optional)"
           ></textarea>
         </label>

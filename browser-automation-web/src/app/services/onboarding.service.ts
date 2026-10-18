@@ -12,23 +12,31 @@ export class OnboardingService {
     return [
       {
         title: 'Welcome to your dashboard',
-        body: 'This is your home screen. See quick stats and jump to job search.',
+        body: 'Your home base for job search automations, stats, and quick actions.',
         target: 'tour-dashboard',
+        icon: 'dashboard',
+        tips: ['Activity summary at a glance', 'Jump to chat or results in one click'],
       },
       {
         title: 'Job search chat',
-        body: 'Open Chat and describe jobs in plain language — no website URL needed.',
+        body: 'Describe the role, skills, and location in plain language — the agent handles the rest.',
         target: 'tour-chat',
+        icon: 'chat',
+        tips: ['No website URL required', 'Listings appear right in the thread'],
       },
       {
         title: 'Results & history',
-        body: 'Results stores job tables; Conversations shows full chat history after refresh.',
+        body: 'Saved job tables live under Results; full chat transcripts under History.',
         target: 'tour-results',
+        icon: 'results',
+        tips: ['Export-friendly job rows', 'Reopen past conversations anytime'],
       },
       {
         title: 'You are all set',
-        body: 'Start searching for jobs whenever you are ready.',
+        body: 'Update your profile preferences anytime, then start your first search.',
         target: 'tour-finish',
+        icon: 'finish',
+        tips: ['Use the dock below to move around', 'Toggle light or dark mode when you like'],
       },
     ];
   }
@@ -37,23 +45,31 @@ export class OnboardingService {
     return [
       {
         title: 'Admin dashboard',
-        body: 'Monitor total users and automation tasks across the platform.',
+        body: 'Platform-wide stats — users, tasks, and activity — from one screen.',
         target: 'tour-dashboard',
+        icon: 'dashboard',
+        tips: ['Total users and automations', 'Same quick actions as members'],
       },
       {
         title: 'User management',
-        body: 'Review registered users, roles, and onboarding status.',
+        body: 'Review accounts, roles, onboarding status, and activate or deactivate access.',
         target: 'tour-users',
+        icon: 'users',
+        tips: ['See who completed onboarding', 'Control login access safely'],
       },
       {
         title: 'Automation chat',
-        body: 'Test job searches the same way end users do.',
+        body: 'Run job searches exactly as end users do to verify flows and results.',
         target: 'tour-chat',
+        icon: 'chat',
+        tips: ['Test natural-language queries', 'Inspect listings in the dock'],
       },
       {
         title: 'Admin ready',
-        body: 'You can manage users and monitor activity from here.',
+        body: 'You are set to manage users and monitor automation activity.',
         target: 'tour-finish',
+        icon: 'finish',
+        tips: ['Dock navigation stays at the bottom', 'Results and History for audits'],
       },
     ];
   }

@@ -1,7 +1,8 @@
 <app-auth-shell>
-  <div class="signin-card signin-card--wide">
+  <div class="signin-card signin-card--wide signin-card--scrollable">
     <div class="signin-card__grid" aria-hidden="true"></div>
 
+    <div class="signin-card__body">
     @if (step < 5) {
       <div class="wizard-progress" aria-hidden="true">
         @for (i of progressSteps(); track i) {
@@ -363,5 +364,6 @@
         <a routerLink="/login">Sign in</a>
       </p>
     }
+    </div>
   </div>
 </app-auth-shell>

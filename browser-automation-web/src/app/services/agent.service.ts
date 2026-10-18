@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import {
+  ChatJobStatusResponse,
   ChatRequest,
   ChatResponse,
   Conversation,
@@ -30,8 +31,10 @@ export class AgentService {
   sendMessage(payload: ChatRequest): Observable<ChatResponse> {
     const body: Record<string, unknown> = {
       message: payload.message,
-      headless: payload.headless ?? false,
     };
+    if (payload.headless !== undefined) {
+      body['headless'] = payload.headless;
+    }
     if (payload.conversation_id) {
       body['conversation_id'] = payload.conversation_id;
     }
@@ -39,5 +42,9 @@ export class AgentService {
       body['website'] = payload.website;
     }
     return this.http.post<ChatResponse>(this.base, body);
+  }
+
+  getJobStatus(taskId: string): Observable<ChatJobStatusResponse> {
+    return this.http.get<ChatJobStatusResponse>(`${this.base}/tasks/${taskId}/status`);
   }
 }

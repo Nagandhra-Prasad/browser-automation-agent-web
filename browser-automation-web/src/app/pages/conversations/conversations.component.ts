@@ -5,12 +5,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SessionService } from '../../core/session.service';
 import { Conversation, StoredMessage } from '../../models/api.models';
 import { AgentService } from '../../services/agent.service';
+import { EmptyStateCardComponent } from '../../shared/empty-state-card/empty-state-card.component';
 import { AppTimestampPipe } from '../../shared/pipes/app-timestamp.pipe';
 
 @Component({
   selector: 'app-conversations',
   standalone: true,
-  imports: [AppTimestampPipe, NgClass, RouterLink],
+  imports: [AppTimestampPipe, NgClass, RouterLink, EmptyStateCardComponent],
   templateUrl: './conversations.component.html',
   styleUrl: './conversations.component.scss',
 })

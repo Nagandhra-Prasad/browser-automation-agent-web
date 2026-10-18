@@ -1,14 +1,20 @@
 :host {
   display: block;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
 }
 
+/* Desktop: full-width hero; brand top-left; sign-in card on the right (same row). */
 .auth-page {
   position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 100dvh;
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  padding: clamp(1.25rem, 3vw, 2.5rem);
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: 1fr;
+  padding: 0;
   background:
     linear-gradient(120deg, rgba(6, 44, 58, 0.55) 0%, rgba(15, 23, 42, 0.35) 45%, rgba(30, 27, 75, 0.25) 100%),
     url('/images/login-hero-bg.jpg') center / cover no-repeat;
@@ -19,14 +25,20 @@
 .auth-page__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(8, 47, 73, 0.45) 0%, rgba(15, 23, 42, 0.15) 55%, rgba(15, 23, 42, 0.05) 100%);
+  background: linear-gradient(90deg, rgba(8, 47, 73, 0.45) 0%, rgba(15, 23, 42, 0.12) 50%, rgba(15, 23, 42, 0.28) 100%);
   pointer-events: none;
 }
 
 .auth-brand {
   position: relative;
-  z-index: 1;
-  max-width: 420px;
+  z-index: 2;
+  grid-row: 1;
+  grid-column: 1;
+  align-self: start;
+  justify-self: start;
+  max-width: min(28rem, 38vw);
+  margin: clamp(1.5rem, 3vw, 2.75rem) clamp(1.5rem, 4vw, 3.5rem);
+  pointer-events: auto;
 }
 
 .auth-brand__link {
@@ -42,7 +54,7 @@
 }
 
 .auth-brand__mark {
-  width: min(220px, 55vw);
+  width: min(240px, 100%);
   height: auto;
 }
 
@@ -74,14 +86,14 @@
 }
 
 .auth-brand__title {
-  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.35rem, 2vw, 2rem);
   font-weight: 800;
   letter-spacing: 0.02em;
   color: #ecfdf5;
 }
 
 .auth-brand__agent {
-  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.35rem, 2vw, 2rem);
   font-weight: 800;
   letter-spacing: 0.06em;
   color: #5eead4;
@@ -95,23 +107,34 @@
 
 .auth-main {
   position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 1rem 0 2rem;
+  z-index: 2;
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  justify-self: end;
+  width: min(460px, calc(100vw - 2rem));
+  max-width: 460px;
+  min-height: 0;
+  max-height: calc(100dvh - 5.5rem);
+  margin-right: clamp(1.5rem, 5vw, 5rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
 }
 
 .auth-footer {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  grid-row: 2;
+  grid-column: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem 1.5rem;
-  margin: 0 calc(-1 * clamp(1.25rem, 3vw, 2.5rem));
-  margin-bottom: calc(-1 * clamp(1.25rem, 3vw, 2.5rem));
+  width: 100%;
   padding: 0.85rem clamp(1.25rem, 3vw, 2.5rem);
   background: rgba(8, 47, 73, 0.82);
   backdrop-filter: blur(8px);
@@ -135,17 +158,42 @@
   text-decoration: underline;
 }
 
-@media (max-width: 900px) {
-  .auth-main {
-    justify-content: center;
+/* Phone / narrow: stack brand then card (mobile-friendly). */
+@media (max-width: 768px) {
+  .auth-page {
+    height: auto;
+    min-height: 100dvh;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    overflow-y: auto;
   }
 
   .auth-brand {
-    max-width: none;
+    grid-row: 1;
+    justify-self: center;
     text-align: center;
+    max-width: none;
+    margin: 1.25rem 1rem 0.5rem;
   }
 
   .auth-brand__link {
     align-items: center;
+  }
+
+  .auth-main {
+    grid-row: 2;
+    justify-self: center;
+    align-self: start;
+    width: 100%;
+    max-width: 440px;
+    max-height: none;
+    margin: 0 auto;
+    padding: 0.5rem 1rem 1.25rem;
+  }
+
+  .auth-footer {
+    grid-row: 3;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }

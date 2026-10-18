@@ -2,14 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { SessionService } from '../../core/session.service';
-import { UserAvatarComponent } from '../../shared/user-avatar/user-avatar.component';
 import { DashboardSummary } from '../../models/api.models';
 import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, UserAvatarComponent],
+  imports: [RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -31,5 +30,24 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  get greeting(): string {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      return 'morning';
+    }
+    if (hour < 17) {
+      return 'afternoon';
+    }
+    return 'evening';
+  }
+
+  get firstName(): string {
+    const name = this.user?.name?.trim();
+    if (!name) {
+      return 'there';
+    }
+    return name.split(/\s+/)[0];
   }
 }
